@@ -20,7 +20,7 @@ module Tilt
       from = "markdown"
       smart_extension = "-smart"
       options.each do |k,v|
-        continue if OPTIONS_TO_DROP.include?(k)
+        next if OPTIONS_TO_DROP.include?(k)
 
         case k
         when :smartypants
