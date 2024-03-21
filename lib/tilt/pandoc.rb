@@ -1,6 +1,9 @@
 require 'tilt/template'
 require 'pandoc-ruby'
 
+# some options are not recognized by pandoc
+OPTIONS_TO_DROP = [:outvar, :context, :fenced_code_blocks, :keep_separator]
+
 module Tilt
   # Pandoc markdown implementation. See:
   # http://pandoc.org/
@@ -17,6 +20,8 @@ module Tilt
       from = "markdown"
       smart_extension = "-smart"
       options.each do |k,v|
+        continue if OPTIONS_TO_DROP.include?(k)
+
         case k
         when :smartypants
           smart_extension = "+smart" if v
