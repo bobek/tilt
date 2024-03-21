@@ -3,6 +3,7 @@ require 'pandoc-ruby'
 
 # some options are not recognized by pandoc
 OPTIONS_TO_DROP = [:outvar, :context, :fenced_code_blocks, :keep_separator]
+VARIABLE_OPTIONS = [:lang, :locale]
 
 module Tilt
   # Pandoc markdown implementation. See:
@@ -38,7 +39,11 @@ module Tilt
           when false
             # do nothing
           else
-            result << { k => v }
+            if VARIABLE_OPTIONS.include?(k)
+              result << { "variable" => "#{k}:#{v}" }
+            else
+              result << { k => v }
+            end
           end
         end
       end
